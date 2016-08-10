@@ -1,5 +1,12 @@
-- view: match_table_campaigns_1684_20160724
-  sql_table_name: dcm1684.match_table_campaigns_1684_20160724
+- view: match_table_campaigns
+  sql_table_name: | 
+        (SELECT * FROM TABLE_QUERY(
+        [ekoblov-test:dcm1684], 
+        'table_id= (Select MAX(table_id) 
+                              FROM [ekoblov-test:dcm1684.__TABLES__]
+                              where table_id contains "match_table_campaigns_1684_")'
+        )
+        )  
   fields:
 
   - dimension: advertiser_id

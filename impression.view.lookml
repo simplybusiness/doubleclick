@@ -7,23 +7,23 @@
   - filter: date_filter
     type: date
   
-  - dimension: active_view_eligible_impressions
-    type: number
+  - measure: active_view_eligible_impressions
+    type: sum
     sql: ${TABLE}.Active_View_Eligible_Impressions
 
-  - dimension: active_view_measurable_impressions
-    type: number
+  - measure: active_view_measurable_impressions
+    type: sum
     sql: ${TABLE}.Active_View_Measurable_Impressions
 
-  - dimension: active_view_viewable_impressions
-    type: number
+  - measure: active_view_viewable_impressions
+    type: sum
     sql: ${TABLE}.Active_View_Viewable_Impressions
 
-  - dimension: ad_id
+  - dimension: ad_id #match_table_ads
     type: string
     sql: ${TABLE}.Ad_ID
 
-  - dimension: advertiser_id
+  - dimension: advertiser_id #match_table_advertisers
     type: string
     sql: ${TABLE}.Advertiser_ID
 
@@ -35,11 +35,11 @@
     type: string
     sql: ${TABLE}.Browser_Platform_Version
 
-  - dimension: campaign_id
+  - dimension: campaign_id #match_table_campaigns
     type: string
     sql: ${TABLE}.Campaign_ID
 
-  - dimension: city_id
+  - dimension: city_id #match_table_cities
     type: string
     sql: ${TABLE}.City_ID
 

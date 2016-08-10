@@ -1,27 +1,24 @@
-- view: match_table_ad_placement_assignments
+- view: match_table_browsers
   sql_table_name: | 
         (SELECT * FROM TABLE_QUERY(
         [ekoblov-test:dcm1684], 
         'table_id= (Select MAX(table_id) 
                               FROM [ekoblov-test:dcm1684.__TABLES__]
-                              where table_id contains "match_table_ad_placement_assignments_1684_")'
+                              where table_id contains "match_table_browsers_1684_")'
         )
         )
   fields:
 
-  - dimension: ad_id
+  - dimension: browser_platform
     type: string
-    sql: ${TABLE}.Ad_ID
+    sql: ${TABLE}.Browser_Platform
 
-  - dimension: placement_id
-    type: string
-    sql: ${TABLE}.Placement_ID
-
-  - dimension: pk
-    hidden: true
+  - dimension: browser_platform_id
     primary_key: true
-    sql: CONCAT(${ad_id},'-',${placement_id})
-    
+    hidden: true
+    type: string
+    sql: ${TABLE}.Browser_Platform_ID
+
   - measure: count
     type: count
     approximate_threshold: 100000

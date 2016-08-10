@@ -1,11 +1,13 @@
 - view: match_table_activity_types
   sql_table_name: | 
-      ( SELECT * FROM {% table_date_range date_filter dcm1684.match_table_activity_types_1684_ %})
-  
+        (SELECT * FROM TABLE_QUERY(
+        [ekoblov-test:dcm1684], 
+        'table_id= (Select MAX(table_id) 
+                              FROM [ekoblov-test:dcm1684.__TABLES__]
+                              where table_id contains "match_table_activity_types_1684_")'
+        )
+        )
   fields:
-  
-  - filter: date_filter
-    type: date
 
   - dimension: activity_group
     type: string
