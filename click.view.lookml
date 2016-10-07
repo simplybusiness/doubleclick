@@ -1,12 +1,13 @@
 - view: click
   sql_table_name: | 
-      ( SELECT * FROM {% table_date_range date_filter dcm1684.click_1684_ %})
+      `ekoblov-test.dcm1684.click_1684`
   
   fields:
-  
-  - filter: date_filter
-    type: date
     
+  - dimension: click
+    type: time
+    sql: TIMESTAMP(${TABLE}._DATA_DATE)
+  
   - dimension: ad_id
     type: string
     sql: ${TABLE}.Ad_ID
@@ -410,6 +411,5 @@
 
   - measure: count
     type: count
-    approximate_threshold: 100000
     drill_fields: []
 
