@@ -1,15 +1,10 @@
 - view: match_table_ads
   sql_table_name: | 
-        (SELECT * FROM TABLE_QUERY(
-        [ekoblov-test:dcm1684], 
-        'table_id= (Select MAX(table_id) 
-                              FROM [ekoblov-test:dcm1684.__TABLES__]
-                              where table_id contains "match_table_ads_1684_")'
-        )
-        )
+        (select * from `ekoblov-test.dcm1684.match_table_ads_1684` where _LATEST_DATE = _DATA_DATE)
+        
   fields:
 
-  - dimension: ad
+  - dimension: ad_name
     type: string
     sql: ${TABLE}.Ad
 
@@ -22,6 +17,7 @@
     sql: ${TABLE}.Ad_Comments
 
   - dimension: ad_id
+    hidden: true
     type: string
     sql: ${TABLE}.Ad_ID
 
@@ -31,18 +27,14 @@
 
   - dimension: advertiser_id
     type: string
+    hidden: true
     sql: ${TABLE}.Advertiser_ID
 
   - dimension: campaign_id
     type: string
+    hidden: true
     sql: ${TABLE}.Campaign_ID
 
   - dimension: creative_pixel_size
     type: string
     sql: ${TABLE}.Creative_Pixel_Size
-
-  - measure: count
-    type: count
-    approximate_threshold: 100000
-    drill_fields: []
-

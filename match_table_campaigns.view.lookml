@@ -1,40 +1,34 @@
 - view: match_table_campaigns
   sql_table_name: | 
-        (SELECT * FROM TABLE_QUERY(
-        [ekoblov-test:dcm1684], 
-        'table_id= (Select MAX(table_id) 
-                              FROM [ekoblov-test:dcm1684.__TABLES__]
-                              where table_id contains "match_table_campaigns_1684_")'
-        )
-        )  
+       (select * from `ekoblov-test.dcm1684.match_table_campaigns_1684` where _LATEST_DATE = _DATA_DATE)
   fields:
 
   - dimension: advertiser_id
     type: string
+    hidden: true
     sql: ${TABLE}.Advertiser_ID
 
   - dimension: billing_invoice_code
     type: string
     sql: ${TABLE}.Billing_Invoice_Code
 
-  - dimension: campaign
+  - dimension: campaign_name
     type: string
     sql: ${TABLE}.Campaign
 
-  - dimension: campaign_end_date
-    type: string
+  - dimension: campaign_end
+    type: time
+    datatype: yyyymmdd
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.Campaign_End_Date
 
   - dimension: campaign_id
+    hidden: true
     type: string
     sql: ${TABLE}.Campaign_ID
 
-  - dimension: campaign_start_date
-    type: string
+  - dimension: campaign_start
+    type: time
+    datatype: yyyymmdd
+    timeframes: [date, week, month, year]
     sql: ${TABLE}.Campaign_Start_Date
-
-  - measure: count
-    type: count
-    approximate_threshold: 100000
-    drill_fields: []
-

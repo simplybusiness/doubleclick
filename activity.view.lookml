@@ -1,12 +1,22 @@
 - view: activity
   sql_table_name: | 
-      ( SELECT * FROM {% table_date_range date_filter dcm1684.activity_1684_ %})
+      `ekoblov-test.dcm1684.activity_1684`
   
   fields:
   
-  - filter: date_filter
-    type: date
+  - dimension: activity
+    type: time
+    sql: TIMESTAMP(${TABLE}._DATA_DATE)
 
+  - dimension: pk
+    type: string
+    sql: concat(${activity_id}, ${ad_id}, ${advertiser_id}, ${user_id}, cast(${TABLE}.Event_Time as string), ${event_type}, ${rendering_id})
+#     hidden: true
+    
+  - measure: count_activities
+    type: count_distinct
+    sql: ${pk}
+  
   - dimension: activity_id
     type: string
     sql: ${TABLE}.Activity_ID
@@ -427,8 +437,11 @@
 
   - measure: count
     type: count
-    approximate_threshold: 100000
     drill_fields: []
+  
+  - measure: distinct_users
+    type: count_distinct 
+    sql: ${user_id}
   
   - measure: total_conversions
     type: sum

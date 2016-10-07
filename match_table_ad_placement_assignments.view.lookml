@@ -1,12 +1,7 @@
 - view: match_table_ad_placement_assignments
   sql_table_name: | 
-        (SELECT * FROM TABLE_QUERY(
-        [ekoblov-test:dcm1684], 
-        'table_id= (Select MAX(table_id) 
-                              FROM [ekoblov-test:dcm1684.__TABLES__]
-                              where table_id contains "match_table_ad_placement_assignments_1684_")'
-        )
-        )
+        (select * from `ekoblov-test.dcm1684.match_table_ad_placement_assignments_1684` where _LATEST_DATE = _DATA_DATE)
+        
   fields:
 
   - dimension: ad_id
@@ -21,9 +16,4 @@
     hidden: true
     primary_key: true
     sql: CONCAT(${ad_id},'-',${placement_id})
-    
-  - measure: count
-    type: count
-    approximate_threshold: 100000
-    drill_fields: []
 

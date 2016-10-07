@@ -1,16 +1,26 @@
 - view: impression
-  sql_table_name: | 
-      ( SELECT * FROM {% table_date_range date_filter dcm1684.impression_1684_ %})
+  sql_table_name: |
+      `ekoblov-test.dcm1684.impression_1684`
   
   fields:
   
-  - filter: date_filter
-    type: date
+  - dimension: impression
+    type: time
+    sql: TIMESTAMP(${TABLE}._DATA_DATE)
   
   - measure: active_view_eligible_impressions
     type: sum
     sql: ${TABLE}.Active_View_Eligible_Impressions
 
+  - dimension: pk
+    type: string
+    sql: concat(${ad_id}, ${advertiser_id}, ${user_id}, cast(${TABLE}.Event_Time as string), ${event_type}, ${rendering_id})
+    hidden: true
+    
+  - measure: count_impressions
+    type: count_distinct
+    sql: ${pk}
+  
   - measure: active_view_measurable_impressions
     type: sum
     sql: ${TABLE}.Active_View_Measurable_Impressions
@@ -21,9 +31,11 @@
 
   - dimension: ad_id #match_table_ads
     type: string
+    view_label: "Ads"
     sql: ${TABLE}.Ad_ID
 
   - dimension: advertiser_id #match_table_advertisers
+    view_label: "Advertisers"
     type: string
     sql: ${TABLE}.Advertiser_ID
 
@@ -36,6 +48,7 @@
     sql: ${TABLE}.Browser_Platform_Version
 
   - dimension: campaign_id #match_table_campaigns
+    view_label: "Campaigns"
     type: string
     sql: ${TABLE}.Campaign_ID
 
@@ -44,8 +57,8 @@
     sql: ${TABLE}.City_ID
 
   - dimension: country_code
-    type: string
-    sql: ${TABLE}.Country_Code
+    map_layer: countries
+    sql: CASE WHEN ${TABLE}.Country_Code = 'UK' THEN 'GB' ELSE ${TABLE}.Country_Code END
 
   - dimension: creative_version
     type: number
@@ -374,7 +387,7 @@
   - dimension: event
     type: time
     datatype: epoch
-    sql: ${TABLE}.Event_Time/1000000
+    sql: CAST(${TABLE}.Event_Time/1000000 as INT64)
 
   - dimension: event_type
     type: string
@@ -405,7 +418,7 @@
     sql: ${TABLE}.Site_ID_DCM
 
   - dimension: state_region
-    type: string
+    map_layer: us_states
     sql: ${TABLE}.State_Region
 
   - dimension: u_value
@@ -417,11 +430,22 @@
     sql: ${TABLE}.User_ID
 
   - dimension: zip_postal_code
-    type: string
+    type: zipcode
     sql: ${TABLE}.ZIP_Postal_Code
 
   - measure: count
     type: count
-    approximate_threshold: 100000
     drill_fields: []
+  
+  - measure: distinct_users
+    type: count_distinct
+    sql: ${user_id}
+  
+  - measure: campaign_count
+    type: count_distinct 
+    sql: ${campaign_id}
+  
+  - measure: ad_count
+    type: count_distinct 
+    sql: ${ad_id}
 

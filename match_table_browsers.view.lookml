@@ -1,12 +1,6 @@
 - view: match_table_browsers
   sql_table_name: | 
-        (SELECT * FROM TABLE_QUERY(
-        [ekoblov-test:dcm1684], 
-        'table_id= (Select MAX(table_id) 
-                              FROM [ekoblov-test:dcm1684.__TABLES__]
-                              where table_id contains "match_table_browsers_1684_")'
-        )
-        )
+     (select * from `ekoblov-test.dcm1684.match_table_browsers_1684` where _LATEST_DATE = _DATA_DATE)
   fields:
 
   - dimension: browser_platform
@@ -18,9 +12,4 @@
     hidden: true
     type: string
     sql: ${TABLE}.Browser_Platform_ID
-
-  - measure: count
-    type: count
-    approximate_threshold: 100000
-    drill_fields: []
 
