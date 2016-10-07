@@ -451,5 +451,5 @@
   - measure: ad_count
     type: count_distinct 
     sql: ${ad_id}
-    drill_fields: [ad_id, imrematch_table_ads.ad_name, match_table_ads.ad_type, count, distinct_users]
+    drill_fields: [ad_id, match_table_ads.ad_name, match_table_ads.ad_type, count, distinct_users]
 
