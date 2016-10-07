@@ -1,6 +1,6 @@
 - view: impression_funnel
   derived_table:
-    persist_for: 12 hours
+    sql_trigger_value: SELECT CURRENT_DATE()
     sql: |
       select user_impression_metrics.*
                         , first_click
