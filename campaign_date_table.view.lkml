@@ -1,8 +1,7 @@
-- view: campaign_date_table
-  derived_table:
-    persist_for: 12 hours
-    sql: |
-      SELECT Campaign_ID, Ad_ID, Date FROM (
+view: campaign_date_table {
+  derived_table: {
+    persist_for: "12 hours"
+    sql: SELECT Campaign_ID, Ad_ID, Date FROM (
         SELECT Ad_ID, Campaign_ID FROM   match_table_ads_1684
           WHERE _DATA_DATE = _LATEST_DATE
         ), (
@@ -11,34 +10,38 @@
        DATE_DIFF(  DATE_ADD(CURRENT_DATE(), INTERVAL - 31 DAY), DATE_ADD(CURRENT_DATE(), INTERVAL - 1 DAY), DAY)
             ) # end DATE_DIFF / ABS
         )
-    
+
       ORDER BY
         Date
+       ;;
+  }
 
-  fields:
-  - measure: count
+  measure: count {
     type: count
-    drill_fields: detail*
+    drill_fields: [detail*]
+  }
 
-  - dimension: campaign
+  dimension: campaign {
     type: string
-    sql: ${TABLE}.Campaign
+    sql: ${TABLE}.Campaign ;;
+  }
 
-  - dimension: campaign_id
+  dimension: campaign_id {
     type: string
-    sql: ${TABLE}.Campaign_ID
+    sql: ${TABLE}.Campaign_ID ;;
+  }
 
-  - dimension: calendar
+  dimension_group: calendar {
     type: time
-    sql: TIMESTAMP(${TABLE}.Date)
-  
-  - dimension: ad_id
+    sql: TIMESTAMP(${TABLE}.Date) ;;
+  }
+
+  dimension: ad_id {
     type: string
-    sql: ${TABLE}.Ad_ID
+    sql: ${TABLE}.Ad_ID ;;
+  }
 
-  sets:
-    detail:
-      - campaign
-      - campaign_id
-      - date
-
+  set: detail {
+    fields: [campaign, campaign_id, calendar_date]
+  }
+}
