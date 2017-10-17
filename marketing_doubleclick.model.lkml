@@ -9,7 +9,8 @@ include: "*.dashboard"
 persist_for: "24 hours"
 
 explore: impression {
-  label: "Impressions"
+  group_label: "Marketing"
+  label: "DoubleClick Impressions"
   view_label: "Impressions"
 
   join: match_table_ads {
@@ -44,8 +45,9 @@ explore: impression {
 }
 
 explore: impression_funnel {
+  group_label: "Marketing"
   join: match_table_campaigns {
-    view_label: "Campaigns"
+    view_label: "DoubleClickCampaigns"
     sql_on: ${impression_funnel.campaign_id} =  ${match_table_campaigns.campaign_id} ;;
     relationship: many_to_one
   }
@@ -70,7 +72,8 @@ explore: impression_funnel {
 }
 
 explore: activity {
-  label: "Activities"
+  group_label: "Marketing"
+  label: "DoubleClick Activities"
   view_label: "Activities"
 
   join: match_table_ads {
@@ -105,7 +108,8 @@ explore: activity {
 }
 
 explore: click {
-  label: "Clicks"
+  group_label: "Marketing"
+  label: "DoubleClick Clicks"
   view_label: "Clicks"
 
   join: match_table_ads {
