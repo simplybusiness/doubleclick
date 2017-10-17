@@ -256,14 +256,14 @@ view: impression_funnel {
 
   measure: action_rate {
     type: number
-    sql: ${total_conversions}/NULLIF(${total_impressions},0) ;;
+    sql: 1.00* ${total_conversions}/NULLIF(${total_impressions},0) ;;
     value_format_name: decimal_4
     description: "Total Conversions/Total Impressions"
   }
 
   measure: action_rate_x_1000 {
     type: number
-    sql: 1000*${action_rate} ;;
+    sql: 1000.00 *${action_rate} ;;
     value_format_name: decimal_2
     description: "1000 * Total Conversions/Total Impressions"
   }
@@ -275,21 +275,21 @@ view: impression_funnel {
 
   measure: conversion_rate {
     type: number
-    sql: ${total_post_click_conversions}/NULLIF(${total_clicks},0) ;;
+    sql: 1.00*  ${total_post_click_conversions}/NULLIF(${total_clicks},0) ;;
     value_format_name: percent_2
     description: "Total Post Click Conversions/Total Clicks"
   }
 
   measure: click_through_rate {
     type: number
-    sql: ${total_clicks}/NULLIF(${total_impressions},0) ;;
+    sql: 1.00 * ${total_clicks}/NULLIF(${total_impressions},0) ;;
     value_format_name: percent_2
     description: "Total Clicks/Total Impressions"
   }
 
   measure: impressions_per_user {
     type: number
-    sql: ${total_impressions}/NULLIF(${count_users},0) ;;
+    sql: 1.00 * ${total_impressions}/NULLIF(${count_users},0) ;;
     value_format_name: decimal_1
   }
 
