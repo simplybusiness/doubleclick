@@ -1,5 +1,5 @@
 view: impression {
-  sql_table_name: `ekoblov-test.dcm1684.impression_1684`
+  sql_table_name: acdc.com_google_doubleclick_data_transfer_impression_1
     ;;
 
   dimension: block_name {

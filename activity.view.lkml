@@ -1,15 +1,15 @@
 view: activity {
-  sql_table_name: `ekoblov-test.dcm1684.activity_1684`
+  sql_table_name: acdc.com_google_doubleclick_data_transfer_activity_1
     ;;
 
   dimension_group: activity {
     type: time
-    sql: TIMESTAMP(${TABLE}._DATA_DATE) ;;
+    sql: ${TABLE}.event_time_timestamp;;
   }
 
   dimension: pk {
     type: string
-    sql: concat(${activity_id}, ${ad_id}, ${advertiser_id}, ${user_id}, cast(${TABLE}.Event_Time as string), ${event_type}, ${rendering_id}) ;;
+    sql: cast(${activity_id} as varchar(18)) || cast(${ad_id} as varchar(18)) || cast(${advertiser_id} as varchar(18)) || cast(${user_id} as varchar(18)) || cast(${TABLE}.Event_Time as varchar(18)) || ${event_type} ||cast( ${rendering_id} as varchar(18)) ;;
   }
 
   #     hidden: true

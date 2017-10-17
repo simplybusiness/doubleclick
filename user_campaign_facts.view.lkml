@@ -1,5 +1,7 @@
 view: user_campaign_facts {
   derived_table: {
+    distribution: "user_id"
+    sortkeys: ["user_id", "campaign_id"]
     sql_trigger_value: SELECT COUNT(*) FROM ${impression_funnel.SQL_TABLE_NAME} ;;
     sql: SELECT
         impression_funnel.user_id AS impression_funnel_user_id,
@@ -30,43 +32,37 @@ view: user_campaign_facts {
 
   dimension_group: first_campaign_activity {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.first_campaign_activity_date/1000000 as int64) ;;
+    sql: ${TABLE}.first_campaign_activity_date;;
     timeframes: [date, week, month, year]
   }
 
   dimension_group: first_campaign_click {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.first_campaign_click_date/1000000 as int64) ;;
+    sql: ${TABLE}.first_campaign_click_date ;;
     timeframes: [date, week, month, year]
   }
 
   dimension_group: first_campaign_impression {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.first_campaign_impression_date/1000000 as int64) ;;
+    sql: ${TABLE}.first_campaign_impression_date ;;
     timeframes: [date, week, month, year]
   }
 
   dimension_group: latest_campaign_click {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.latest_campaign_click_date/1000000 as int64) ;;
+    sql: ${TABLE}.latest_campaign_click_date ;;
     timeframes: [date, week, month, year]
   }
 
   dimension_group: latest_campaign_activity {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.latest_campaign_activity_date/1000000 as int64) ;;
+    sql: ${TABLE}.latest_campaign_activity_date;;
     timeframes: [date, week, month, year]
   }
 
   dimension_group: latest_campaign_impression {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.latest_campaign_impression_date/1000000 as int64) ;;
+    sql: ${TABLE}.latest_campaign_impression_date ;;
     timeframes: [date, week, month, year]
   }
 

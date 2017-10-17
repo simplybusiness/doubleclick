@@ -1,11 +1,5 @@
 view: match_table_cities {
-  sql_table_name: (SELECT * FROM TABLE_QUERY(
-    [ekoblov-test:dcm1684],
-    'table_id= (Select MAX(table_id)
-                          FROM [ekoblov-test:dcm1684.__TABLES__]
-                          where table_id contains "match_table_cities_1684_")'
-    )
-    )
+  sql_table_name: acdc.com_google_doubleclick_data_transfer_match_table_cities_1
      ;;
 
     dimension: city {

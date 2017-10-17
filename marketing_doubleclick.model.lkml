@@ -1,4 +1,4 @@
-connection: "doubleclick"
+connection: "aerie"
 
 # include all the views
 include: "*.view"

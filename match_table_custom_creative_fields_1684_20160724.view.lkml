@@ -1,5 +1,5 @@
 view: match_table_custom_creative_fields_1684_20160724 {
-  sql_table_name: dcm1684.match_table_custom_creative_fields_1684_20160724 ;;
+  sql_table_name: acdc.com_google_doubleclick_data_transfer_match_table_custom_creative_fields_1 ;;
 
   dimension: advertiser_id {
     type: string

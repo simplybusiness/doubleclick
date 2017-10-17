@@ -2,7 +2,7 @@ view: campaign_date_table {
   derived_table: {
     persist_for: "12 hours"
     sql: SELECT Campaign_ID, Ad_ID, Date FROM (
-        SELECT Ad_ID, Campaign_ID FROM   match_table_ads_1684
+        SELECT Ad_ID, Campaign_ID FROM   acdc.com_google_doubleclick_data_transfer_match_table_ads_1
           WHERE _DATA_DATE = _LATEST_DATE
         ), (
         SELECT DATE_ADD(  DATE_ADD(CURRENT_DATE(), INTERVAL - 31 DAY), INTERVAL i DAY) as Date

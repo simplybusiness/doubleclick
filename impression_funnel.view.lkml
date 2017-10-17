@@ -1,6 +1,7 @@
 view: impression_funnel {
   derived_table: {
     sql_trigger_value: SELECT CURRENT_DATE() ;;
+    distribution_style: "all"
     sql: select user_impression_metrics.*
                   , first_click
                   , latest_click
@@ -19,11 +20,11 @@ view: impression_funnel {
                 , min(zip_postal_code) as zip_code
                 , min(state_region) as state_region
                 , min(country_code) as country_code
-                , min(event_time) as first_impression
-                , max(event_time) as latest_impression
+                , min(event_time_timestamp) as first_impression
+                , max(event_time_timestamp) as latest_impression
                 , count(distinct site_id_dcm) as site_count
                 , count(*) as count_impressions
-            from `ekoblov-test.dcm1684.impression_1684`
+            from acdc.com_google_doubleclick_data_transfer_impression_1
             where user_id <> '' and user_id is not null
             group by 1,2,3,4) as user_impression_metrics
 
@@ -33,10 +34,10 @@ view: impression_funnel {
                 , campaign_id
                 , ad_id
                 , advertiser_id
-                , min(event_time) as first_click
-                , max(event_time) as latest_click
+                , min(event_time_timestamp) as first_click
+                , max(event_time_timestamp) as latest_click
                 , count(*) as count_clicks
-            from `ekoblov-test.dcm1684.click_1684`
+            from acdc.com_google_doubleclick_data_transfer_click_1
             where user_id <> '' and user_id is not null
             group by 1,2,3,4) as user_click_metrics
 
@@ -52,13 +53,13 @@ view: impression_funnel {
                 , campaign_id
                 , ad_id
                 , advertiser_id
-                , min(event_time) as first_activity
-                , max(event_time) as latest_activity
+                , min(event_time_timestamp) as first_activity
+                , max(event_time_timestamp) as latest_activity
                 , count(*) as count_conversions
                 , sum(case when event_sub_type = 'POSTVIEW' THEN 1 ELSE 0 END) as count_postview_conversions
                 , sum(case when event_sub_type = 'POSTCLICK' THEN 1 ELSE 0 END) as count_postclick_conversions
                 , sum(total_revenue) as revenue
-                from `ekoblov-test.dcm1684.activity_1684`
+                from acdc.com_google_doubleclick_data_transfer_activity_1
                 where user_id <> '' and user_id is not null
                 and event_type = 'CONVERSION'
                 group by 1,2,3,4) as user_activity_metrics
@@ -116,8 +117,7 @@ view: impression_funnel {
 
   dimension_group: first_ad_impression {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.first_impression/1000000 as int64) ;;
+    sql: ${TABLE}.first_impression ;;
     timeframes: [date, week, month, year]
     view_label: "Users"
   }
@@ -125,7 +125,7 @@ view: impression_funnel {
   dimension_group: latest_ad_impression {
     type: time
     datatype: epoch
-    sql: cast(${TABLE}.latest_impression/1000000 as int64) ;;
+    sql: ${TABLE}.latest_impression ;;
     timeframes: [date, week, month, year]
     view_label: "Users"
   }
@@ -145,16 +145,14 @@ view: impression_funnel {
 
   dimension_group: first_ad_click {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.first_click/1000000 as int64) ;;
+    sql: ${TABLE}.first_click ;;
     timeframes: [date, week, month, year]
     view_label: "Users"
   }
 
   dimension_group: latest_ad_click {
     type: time
-    datatype: epoch
-    sql: cast(${TABLE}.latest_click/1000000 as int64) ;;
+    sql: ${TABLE}.latest_click ;;
     timeframes: [date, week, month, year]
     view_label: "Users"
   }
@@ -168,23 +166,21 @@ view: impression_funnel {
 
   dimension_group: first_ad_activity {
     type: time
-    datatype: epoch
     view_label: "Users"
-    sql: cast(${TABLE}.first_activity/1000000 as int64) ;;
+    sql: ${TABLE}.first_activity ;;
     timeframes: [date, week, month, year]
   }
 
   dimension_group: latest_ad_activity {
     type: time
-    datatype: epoch
     view_label: "Users"
-    sql: cast(${TABLE}.latest_activity/1000000 as int64) ;;
+    sql: ${TABLE}.latest_activity ;;
     timeframes: [date, week, month, year]
   }
 
   dimension: time_to_conversion {
     type: number
-    sql: (${TABLE}.first_activity - ${TABLE}.first_impression)/1000000 ;;
+    sql: datediff(d, ${TABLE}.first_impression,${TABLE}.first_activity ) ;;
   }
 
   dimension: count_conversions {

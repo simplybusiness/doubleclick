@@ -1,5 +1,5 @@
 view: match_table_creative_ad_assignments_1684_20160724 {
-  sql_table_name: dcm1684.match_table_creative_ad_assignments_1684_20160724 ;;
+  sql_table_name: com_google_doubleclick_data_transfer_match_table_creative_ad_assignments_1 ;;
 
   dimension: ad_click_url {
     type: string

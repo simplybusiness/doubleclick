@@ -1,5 +1,5 @@
 view: match_table_ads {
-  sql_table_name: (select * from `ekoblov-test.dcm1684.match_table_ads_1684` where _LATEST_DATE = _DATA_DATE)
+  sql_table_name: acdc.com_google_doubleclick_data_transfer_match_table_ads_1
     ;;
 
   dimension: ad_name {

@@ -1,10 +1,10 @@
 view: click {
-  sql_table_name: `ekoblov-test.dcm1684.click_1684`
+  sql_table_name: acdc.com_google_doubleclick_data_transfer_click_1
     ;;
 
   dimension_group: click {
     type: time
-    sql: TIMESTAMP(${TABLE}._DATA_DATE) ;;
+    sql: ${TABLE}.event_time_timestamp;;
   }
 
   dimension: ad_id {
