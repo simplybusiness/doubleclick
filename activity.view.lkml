@@ -10,6 +10,7 @@ view: activity {
   dimension: pk {
     type: string
     sql: cast(${activity_id} as varchar(18)) || cast(${ad_id} as varchar(18)) || cast(${advertiser_id} as varchar(18)) || cast(${user_id} as varchar(18)) || cast(${TABLE}.Event_Time as varchar(18)) || ${event_type} ||cast( ${rendering_id} as varchar(18)) ;;
+    primary_key: yes
   }
 
   #     hidden: true
