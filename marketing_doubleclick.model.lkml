@@ -8,6 +8,7 @@ include: "*.dashboard"
 
 persist_for: "24 hours"
 
+
 explore: impression {
   group_label: "Marketing"
   label: "DoubleClick Impressions"
