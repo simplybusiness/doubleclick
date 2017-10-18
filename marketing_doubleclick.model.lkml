@@ -45,9 +45,10 @@ explore: impression {
 }
 
 explore: impression_funnel {
+  label: "DoubleClick Impression Funnel"
   group_label: "Marketing"
   join: match_table_campaigns {
-    view_label: "DoubleClickCampaigns"
+    view_label: "DoubleClick Campaigns"
     sql_on: ${impression_funnel.campaign_id} =  ${match_table_campaigns.campaign_id} ;;
     relationship: many_to_one
   }
