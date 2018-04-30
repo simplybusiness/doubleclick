@@ -1,7 +1,5 @@
 view: impression_funnel {
   derived_table: {
-    sql_trigger_value: SELECT CURRENT_DATE ;;
-    distribution_style: "all"
     sql: select user_impression_metrics.*
                   , first_click
                   , latest_click
